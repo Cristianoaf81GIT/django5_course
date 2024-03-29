@@ -52,3 +52,25 @@ def LoggingExample(_request: HttpRequest) -> HttpResponse:
     filelogger.error("Error: Due to more serious problems the software does not be able to exec something") 
     filelogger.critical("Critical: A serius error, that eventualy can causes crash on application")
     return HttpResponse('ok'.encode())
+
+
+def ifTagDemo(request: HttpRequest) -> HttpResponse:
+    data: dict = dict({
+        'name': 'Jimmy Anderson',
+        'isVisible': True,
+        'loggedIn': False,
+        'countryCode': 'BR',
+        'workingExperience': 5,
+        'stateCode': 'Test'
+    })
+
+    template_file_name = 'djangobasicsapp/IfTagDemo.html'
+
+    context: dict = dict({'Data': data})
+    return render(request=request, template_name=template_file_name, context=context)
+
+
+
+
+
+
