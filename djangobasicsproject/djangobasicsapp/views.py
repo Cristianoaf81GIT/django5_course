@@ -3,6 +3,23 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest 
 from datetime import datetime
 import logging
+from typing import TypedDict
+from dataclasses import dataclass
+
+@dataclass 
+class Product(TypedDict):
+    productID: int
+    productName: str
+    quantity: int
+    unityStock: int
+    disContinued: bool
+    cost: float 
+
+@dataclass
+class ProductContext(TypedDict):
+    Products: list[Product]
+    TotalOfProducts: int
+
 
 # Create your views here.
 
@@ -69,6 +86,94 @@ def ifTagDemo(request: HttpRequest) -> HttpResponse:
     context: dict = dict({'Data': data})
     return render(request=request, template_name=template_file_name, context=context)
 
+def ShowProducts(request: HttpRequest) -> HttpResponse:
+    products: list[Product] = []
+    products.append(
+        {
+            "productID": 1,
+            "productName": "AMD Ryzen 3990",
+            "quantity": 100,
+            "unityStock": 5,
+            "disContinued": False,
+            "cost": 3000.0,
+        }
+    )
+    products.append(
+        {
+            "productID": 2,
+            "productName": "AMD Ryzen 3990",
+            "quantity": 100,
+            "unityStock": 5,
+            "disContinued": False,
+            "cost": 3000.0,
+        }
+    )
+    products.append(
+        {
+            "productID": 3,
+            "productName": "AMD Ryzen 3990",
+            "quantity": 100,
+            "unityStock": 5,
+            "disContinued": False,
+            "cost": 3000.0,
+        }
+    )
+    products.append(
+        {
+            "productID": 4,
+            "productName": "AMD Ryzen 3990",
+            "quantity": 100,
+            "unityStock": 5,
+            "disContinued": False,
+            "cost": 3000.0,
+        }
+    )
+    products.append(
+        {
+            "productID": 5,
+            "productName": "AMD Ryzen 3990",
+            "quantity": 100,
+            "unityStock": 5,
+            "disContinued": False,
+            "cost": 3000.0,
+        }
+    )
+    products.append(
+        {
+            "productID": 6,
+            "productName": "AMD Ryzen 3990",
+            "quantity": 100,
+            "unityStock": 5,
+            "disContinued": True,
+            "cost": 8000.0,
+        }
+    )
+    products.append(
+        {
+            "productID": 7,
+            "productName": "AMD Ryzen 3990",
+            "quantity": 100,
+            "unityStock": 5,
+            "disContinued": True,
+            "cost": 9000.0,
+        }
+    )
+    products.append(
+        {
+            "productID": 8,
+            "productName": "AMD Ryzen 3990",
+            "quantity": 100,
+            "unityStock": 5,
+            "disContinued": True,
+            "cost": 10000.0,
+        }
+    )
+    template_file_name = 'djangobasicsapp/ShowProducts.html'
+    context: ProductContext = {
+        "Products": products,
+        "TotalOfProducts": len(products)
+    }
+    return render(request=request, template_name= template_file_name, context=context)
 
 
 

@@ -10,5 +10,6 @@ urlpatterns: Final[list[URLResolver | URLPattern]] = [
     path("GetRequestDemo", views.GetRequestVariables, name="GRV"),
     path("ShowTime", views.ShowDateTimeInfo, name="SDTI"),
     path("LoggingDemo", views.LoggingExample, name="LoggingExample"),
-    path('IfTagDemo', views.ifTagDemo, name="ITGDEMO")
+    path('IfTagDemo', views.ifTagDemo, name="ITGDEMO"),
+    path('ShowProducts', views.ShowProducts, name="SP")
 ]
