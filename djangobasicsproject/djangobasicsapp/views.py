@@ -3,8 +3,15 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest 
 from datetime import datetime
 import logging
-from typing import TypedDict
+from typing import Any, TypedDict
 from dataclasses import dataclass
+import requests 
+from pydantic import BaseModel
+
+@dataclass
+class Processors(TypedDict):
+    Category: str
+    processors: list[str]
 
 @dataclass 
 class Product(TypedDict):
@@ -15,13 +22,26 @@ class Product(TypedDict):
     disContinued: bool
     cost: float 
 
+class User(BaseModel):
+    address: dict[str, Any]
+    id: int
+    email: str
+    username: str
+    password: str
+    name: dict[str, Any]
+    phone: str    
+
 @dataclass
 class ProductContext(TypedDict):
     Products: list[Product]
     TotalOfProducts: int
+    ProcessorsList: list[Processors] 
 
 
 # Create your views here.
+
+def Index(request) -> HttpResponse:
+    return render(request, 'djangobasicsapp/Index.html')
 
 def Home(_request: HttpRequest) -> HttpResponse:
     return HttpResponse(b"<h1>Hello from django 5.0</h1>")
@@ -168,14 +188,82 @@ def ShowProducts(request: HttpRequest) -> HttpResponse:
             "cost": 10000.0,
         }
     )
+    
+    ProcessorsList: list[Processors] = [
+        {
+            'Category': 'AMD', 
+            'processors': [
+                'Ryzen 3990',
+                'Ryzen 3970',
+                'Ryzen 3960',
+                'Ryzen 3950'
+            ], 
+        },
+        {
+            'Category': 'Intel',
+            'processors': [
+                'Xeon 8362',
+                'Xeon 8358',
+                'Xeon 8380'
+            ]        
+        },
+    ]
+
     template_file_name = 'djangobasicsapp/ShowProducts.html'
+    
     context: ProductContext = {
         "Products": products,
-        "TotalOfProducts": len(products)
+        "TotalOfProducts": len(products),
+        "ProcessorsList": ProcessorsList
     }
+
     return render(request=request, template_name= template_file_name, context=context)
 
+def LoadUsers(request: HttpRequest) -> HttpResponse:
+    templatefilename = 'djangobasicsapp/ShowUsers.html'
+    response = CallRestApi()
+    context: dict[str, list[User]] = {"users": response.json()}
+    return render(request=request, template_name=templatefilename, context=context)
 
+def LoadUsers2(request: HttpRequest) -> HttpResponse:
+    templatefilename = 'djangobasicsapp/ShowUsersAsCard.html'
+    image = 'https://i.pravatar.cc'
+    response = CallRestApi()
+    context: dict[str, list[User] | str] = {"users": response.json(),"image": image}
+    return render(request=request, template_name=templatefilename, context=context)
 
+def CallRestApi() -> requests.Response:
+    BASE_URL = 'https://fakestoreapi.com'
+    response = requests.get(f'{BASE_URL}/users')
+    return response
 
+def CallRestApi2(userid: int) -> requests.Response:
+    BASE_URL = 'https://fakestoreapi.com'
+    response = requests.get(f'{BASE_URL}/users/{userid}')
+    return response
+
+def LoadUserDetails(request: HttpRequest) -> HttpResponse:
+    
+    if request.method == 'POST':
+        new_user_id: str = request.POST.get(key='useridcounter', default='11') or '11' #pyright: ignore
+        counter = int(new_user_id)
+        if request.POST.get('btnNext'):
+            counter = counter + 1
+            if counter > 11:
+                counter = 1
+        elif request.POST.get('btnPrevius'):
+            counter = counter - 1
+            if counter == 0:
+                counter = 1
+    else:        
+        counter = 1
+        
+    templatefilename = 'djangobasicsapp/ShowUserDetails.html'
+    response = CallRestApi2(counter)
+    image = 'https://i.pravatar.cc'
+    context: dict[str, User | str] = {
+        "user": response.json(), 
+        "image": image
+    }
+    return render(request, templatefilename, context)
 

@@ -3,7 +3,8 @@ from . import views
 from typing import Final
 
 urlpatterns: Final[list[URLResolver | URLPattern]] = [
-    path('', views.Home, name='entry'),
+    path('', views.Index, name="Index"),
+    path('Index', views.Index, name="Index"),
     path("Home", views.Home, name="Home"),
     path("ShowMessages", views.ShowMoreMessage, name="SM"),
     path("UseVariables", views.UseVariableAsResponse, name="UVR"),
@@ -11,5 +12,8 @@ urlpatterns: Final[list[URLResolver | URLPattern]] = [
     path("ShowTime", views.ShowDateTimeInfo, name="SDTI"),
     path("LoggingDemo", views.LoggingExample, name="LoggingExample"),
     path('IfTagDemo', views.ifTagDemo, name="ITGDEMO"),
-    path('ShowProducts', views.ShowProducts, name="SP")
+    path('ShowProducts', views.ShowProducts, name="SP"),
+    path('ShowUsers', views.LoadUsers, name="SU"),
+    path('ShowUsers2', views.LoadUsers2, name="SU2"),
+    path('ShowUserDetails', views.LoadUserDetails, name="ShowUserDetails")
 ]
