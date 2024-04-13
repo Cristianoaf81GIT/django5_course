@@ -15,5 +15,6 @@ urlpatterns: Final[list[URLResolver | URLPattern]] = [
     path('ShowProducts', views.ShowProducts, name="SP"),
     path('ShowUsers', views.LoadUsers, name="SU"),
     path('ShowUsers2', views.LoadUsers2, name="SU2"),
-    path('ShowUserDetails', views.LoadUserDetails, name="ShowUserDetails")
+    path('ShowUserDetails', views.LoadUserDetails, name="ShowUserDetails"),
+    path('PassModel', views.pass_model_2_template, name="PassModel")
 ]

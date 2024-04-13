@@ -1,0 +1,23 @@
+{% extends 'djangobasicsapp/layout.html' %}
+
+{% block body_block %}
+  <table class="table">
+    <thead>
+      <td>Author name</td>
+      <td>Country</td>
+      <td>Book Name</td>
+    </thead>
+    
+      
+    {% for author in Authors %}
+    
+      <tr>
+        <td>{{author.author_name}}</td> 
+        <td>{{author.country}}</td> 
+        <td>{{author.book_name}}</td>
+      </tr>
+    
+    {% endfor %}
+    
+  </table>
+{% endblock %}

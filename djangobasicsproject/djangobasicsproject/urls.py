@@ -20,6 +20,7 @@ from django.urls import include, path, URLPattern, URLResolver
 
 urlpatterns: Final[list[URLResolver | URLPattern]] = [
     path("admin/", admin.site.urls),
+    path("", include("djangobasicsapp.urls")),
     path("djangobasicsapp/", include('djangobasicsapp.urls')), #incluir urls
     path("djangobasicsapp2/", include('djangobasicsapp2.urls')),
     path("djangobasicsapp3/", include('djangobasicsapp3.urls'))

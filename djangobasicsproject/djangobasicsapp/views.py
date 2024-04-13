@@ -7,6 +7,7 @@ from typing import Any, TypedDict
 from dataclasses import dataclass
 import requests 
 from pydantic import BaseModel
+from djangobasicsapp.models import Authors
 
 @dataclass
 class Processors(TypedDict):
@@ -266,4 +267,17 @@ def LoadUserDetails(request: HttpRequest) -> HttpResponse:
         "image": image
     }
     return render(request, templatefilename, context)
+
+def pass_model_2_template(request: HttpRequest) -> HttpResponse:
+    # instattiate authors model 
+    authors: list[Authors] = []
+    authors.append(Authors('Lesnor', 'usa', 'ufc'))
+    authors.append(Authors('nate diaz', 'usa', 'ufc'))
+    authors.append(Authors('jhonson','usa','ufc'))
+    authors.append(Authors('connors macgregor', 'usa', 'ufc'))
+    authors.append(Authors('michael chandler', 'usa', 'ufc'))
+    template_name = "djangobasicsapp/PassModel.html"
+    context: dict[str, list[Authors]] = {"Authors": authors}
+    return render(request, template_name, context)
+
 
