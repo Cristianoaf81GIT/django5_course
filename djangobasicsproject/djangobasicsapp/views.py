@@ -1,27 +1,30 @@
-#pyright: reportUnusedVariable=false
+# pyright: reportUnusedVariable=false
 from django.shortcuts import render
-from django.http import HttpResponse, HttpRequest 
+from django.http import HttpResponse, HttpRequest
 from datetime import datetime
 import logging
 from typing import Any, TypedDict
 from dataclasses import dataclass
-import requests 
+import requests
 from pydantic import BaseModel
 from djangobasicsapp.models import Authors
+
 
 @dataclass
 class Processors(TypedDict):
     Category: str
     processors: list[str]
 
-@dataclass 
+
+@dataclass
 class Product(TypedDict):
     productID: int
     productName: str
     quantity: int
     unityStock: int
     disContinued: bool
-    cost: float 
+    cost: float
+
 
 class User(BaseModel):
     address: dict[str, Any]
@@ -30,28 +33,35 @@ class User(BaseModel):
     username: str
     password: str
     name: dict[str, Any]
-    phone: str    
+    phone: str
+
 
 @dataclass
 class ProductContext(TypedDict):
     Products: list[Product]
     TotalOfProducts: int
-    ProcessorsList: list[Processors] 
+    ProcessorsList: list[Processors]
 
 
 # Create your views here.
 
+
 def Index(request) -> HttpResponse:
-    return render(request, 'djangobasicsapp/Index.html')
+    return render(request, "djangobasicsapp/Index.html")
+
 
 def Home(_request: HttpRequest) -> HttpResponse:
     return HttpResponse(b"<h1>Hello from django 5.0</h1>")
 
+
 def ShowMoreMessage(_request: HttpRequest) -> HttpResponse:
-     return HttpResponse(b"<h1>Hello from django 5.0</h2><h1>Hello from django 5.0</h2><h3>Hello from django 5.0</h3><h4>Hello from django 5.0</h4><h5>Hello from django 5.0</h5><h6>Hello from django 5.0</h6>")
+    return HttpResponse(
+        b"<h1>Hello from django 5.0</h2><h1>Hello from django 5.0</h2><h3>Hello from django 5.0</h3><h4>Hello from django 5.0</h4><h5>Hello from django 5.0</h5><h6>Hello from django 5.0</h6>"  # noqa
+    )
+
 
 def UseVariableAsResponse(_request: HttpRequest) -> HttpResponse:
-    #print(_request.headers)    
+    # print(_request.headers)
     Message = "<h1>Welcome to django development.</h1>"
     Message += "<h2>Welcome to django development.</h2>"
     Message += "<h3>Welcome to django development.</h3>"
@@ -60,54 +70,72 @@ def UseVariableAsResponse(_request: HttpRequest) -> HttpResponse:
     Message += "<h6>Welcome to django development.</h6>"
     return HttpResponse(Message.encode())
 
+
 def GetRequestVariables(request: HttpRequest) -> HttpResponse:
-    user_agent = request.META['HTTP_USER_AGENT']
-    Message = user_agent if len(user_agent) > 0 else "" 
-    if request.method == 'GET' and request.GET.get('Message'):
+    user_agent = request.META["HTTP_USER_AGENT"]
+    Message = user_agent if len(user_agent) > 0 else ""
+    if request.method == "GET" and request.GET.get("Message"):
         Message += f"<h1>{str(request.GET.get('Message'))}</h1>"
     else:
-        Message += "<h1>You havent supplied value for Message parameter...</h1>"
+        Message += "<h1>You havent supplied value for Message parameter...</h1>"  # noqa
 
-    if request.method == 'GET' and request.GET.get('Country'):
+    if request.method == "GET" and request.GET.get("Country"):
         Message += f"<h1>{str(request.GET.get('Country'))}</h1>"
     else:
-        Message += "<h1>You havent supplied value for Country parameter...</h1>"
+        Message += "<h1>You havent supplied value for Country parameter...</h1>"  # noqa
 
     return HttpResponse(Message.encode())
-        
+
 
 def ShowDateTimeInfo(request: HttpRequest) -> HttpResponse:
     todays_date = datetime.now()
-    template_file_name = 'djangobasicsapp/ShowTimeInfo.html'
-    context: dict = { 'TodaysDate': todays_date }
-    return render(request=request,template_name=template_file_name,context=context)
+    template_file_name = "djangobasicsapp/ShowTimeInfo.html"
+    context: dict = {"TodaysDate": todays_date}
+    return render(
+        request=request, template_name=template_file_name, context=context
+    )  # noqa
+
 
 def LoggingExample(_request: HttpRequest) -> HttpResponse:
-    filelogger = logging.getLogger('filelogger')
-    filelogger.debug(f"debug: I justentered into the view ... {datetime.now()}")
-    filelogger.info("Info: Confirmation that the things are working as expected")
-    filelogger.warning("Warning: An indication that something unexpected happened")
-    filelogger.error("Error: Due to more serious problems the software does not be able to exec something") 
-    filelogger.critical("Critical: A serius error, that eventualy can causes crash on application")
-    return HttpResponse('ok'.encode())
+    filelogger = logging.getLogger("filelogger")
+    filelogger.debug(f"debug: I justentered into the view ... {datetime.now()}")  # noqa
+    filelogger.info(
+        "Info: Confirmation that the things are working as expected"
+    )  # noqa
+    filelogger.warning(
+        "Warning: An indication that something unexpected happened"
+    )  # noqa
+    filelogger.error(
+        "Error: Due to more serious problems the software does not be able to exec something"  # noqa
+    )
+    filelogger.critical(
+        "Critical: A serius error, that eventualy can causes crash on application"  # noqa
+    )
+    return HttpResponse("ok".encode())
 
 
 def ifTagDemo(request: HttpRequest) -> HttpResponse:
-    data: dict = dict({
-        'name': 'Jimmy Anderson',
-        'isVisible': True,
-        'loggedIn': False,
-        'countryCode': 'BR',
-        'workingExperience': 5,
-        'stateCode': 'Test'
-    })
+    data: dict = dict(
+        {
+            "name": "Jimmy Anderson",
+            "isVisible": True,
+            "loggedIn": False,
+            "countryCode": "BR",
+            "workingExperience": 5,
+            "stateCode": "Test",
+        }
+    )
 
-    template_file_name = 'djangobasicsapp/IfTagDemo.html'
+    template_file_name = "djangobasicsapp/IfTagDemo.html"
 
-    context: dict = dict({'Data': data})
-    return render(request=request, template_name=template_file_name, context=context)
+    context: dict = dict({"Data": data})
+    return render(
+        request=request, template_name=template_file_name, context=context
+    )  # noqa
+
 
 def ShowProducts(request: HttpRequest) -> HttpResponse:
+
     products: list[Product] = []
     products.append(
         {
@@ -189,95 +217,131 @@ def ShowProducts(request: HttpRequest) -> HttpResponse:
             "cost": 10000.0,
         }
     )
-    
+
     ProcessorsList: list[Processors] = [
         {
-            'Category': 'AMD', 
-            'processors': [
-                'Ryzen 3990',
-                'Ryzen 3970',
-                'Ryzen 3960',
-                'Ryzen 3950'
-            ], 
+            "Category": "AMD",
+            "processors": [
+                "Ryzen 3990",
+                "Ryzen 3970",
+                "Ryzen 3960",
+                "Ryzen 3950",
+            ],  # noqa
         },
         {
-            'Category': 'Intel',
-            'processors': [
-                'Xeon 8362',
-                'Xeon 8358',
-                'Xeon 8380'
-            ]        
-        },
+            "Category": "Intel",
+            "processors": ["Xeon 8362", "Xeon 8358", "Xeon 8380"],
+        },  # noqa
     ]
 
-    template_file_name = 'djangobasicsapp/ShowProducts.html'
-    
+    template_file_name = "djangobasicsapp/ShowProducts.html"
+
     context: ProductContext = {
         "Products": products,
         "TotalOfProducts": len(products),
-        "ProcessorsList": ProcessorsList
+        "ProcessorsList": ProcessorsList,
     }
 
-    return render(request=request, template_name= template_file_name, context=context)
+    return render(
+        request=request, template_name=template_file_name, context=context
+    )  # noqa
+
 
 def LoadUsers(request: HttpRequest) -> HttpResponse:
-    templatefilename = 'djangobasicsapp/ShowUsers.html'
+    templatefilename = "djangobasicsapp/ShowUsers.html"
     response = CallRestApi()
     context: dict[str, list[User]] = {"users": response.json()}
-    return render(request=request, template_name=templatefilename, context=context)
+    return render(
+        request=request, template_name=templatefilename, context=context
+    )  # noqa
+
 
 def LoadUsers2(request: HttpRequest) -> HttpResponse:
-    templatefilename = 'djangobasicsapp/ShowUsersAsCard.html'
-    image = 'https://i.pravatar.cc'
+    templatefilename = "djangobasicsapp/ShowUsersAsCard.html"
+    image = "https://i.pravatar.cc"
     response = CallRestApi()
-    context: dict[str, list[User] | str] = {"users": response.json(),"image": image}
-    return render(request=request, template_name=templatefilename, context=context)
+    context: dict[str, list[User] | str] = {
+        "users": response.json(),
+        "image": image,
+    }  # noqa
+    return render(
+        request=request, template_name=templatefilename, context=context
+    )  # noqa
+
 
 def CallRestApi() -> requests.Response:
-    BASE_URL = 'https://fakestoreapi.com'
-    response = requests.get(f'{BASE_URL}/users')
+    BASE_URL = "https://fakestoreapi.com"
+    response = requests.get(f"{BASE_URL}/users")
     return response
+
 
 def CallRestApi2(userid: int) -> requests.Response:
-    BASE_URL = 'https://fakestoreapi.com'
-    response = requests.get(f'{BASE_URL}/users/{userid}')
+    BASE_URL = "https://fakestoreapi.com"
+    response = requests.get(f"{BASE_URL}/users/{userid}")
     return response
 
+
 def LoadUserDetails(request: HttpRequest) -> HttpResponse:
-    
-    if request.method == 'POST':
-        new_user_id: str = request.POST.get(key='useridcounter', default='11') or '11' #pyright: ignore
+
+    if request.method == "POST":
+        new_user_id: str = (
+            request.POST.get(key="useridcounter", default="11")
+            or "11"  # pyright: ignore #noqa
+        )
         counter = int(new_user_id)
-        if request.POST.get('btnNext'):
+        if request.POST.get("btnNext"):
             counter = counter + 1
             if counter > 11:
                 counter = 1
-        elif request.POST.get('btnPrevius'):
+        elif request.POST.get("btnPrevius"):
             counter = counter - 1
             if counter == 0:
                 counter = 1
-    else:        
+    else:
         counter = 1
-        
-    templatefilename = 'djangobasicsapp/ShowUserDetails.html'
+
+    templatefilename = "djangobasicsapp/ShowUserDetails.html"
     response = CallRestApi2(counter)
-    image = 'https://i.pravatar.cc'
-    context: dict[str, User | str] = {
-        "user": response.json(), 
-        "image": image
-    }
+    image = "https://i.pravatar.cc"
+    context: dict[str, User | str] = {"user": response.json(), "image": image}
     return render(request, templatefilename, context)
 
+
 def pass_model_2_template(request: HttpRequest) -> HttpResponse:
-    # instattiate authors model 
+    # instattiate authors model
     authors: list[Authors] = []
-    authors.append(Authors('Lesnor', 'usa', 'ufc'))
-    authors.append(Authors('nate diaz', 'usa', 'ufc'))
-    authors.append(Authors('jhonson','usa','ufc'))
-    authors.append(Authors('connors macgregor', 'usa', 'ufc'))
-    authors.append(Authors('michael chandler', 'usa', 'ufc'))
+    authors.append(Authors("Lesnor", "usa", "ufc"))
+    authors.append(Authors("nate diaz", "usa", "ufc"))
+    authors.append(Authors("jhonson", "usa", "ufc"))
+    authors.append(Authors("connors macgregor", "usa", "ufc"))
+    authors.append(Authors("michael chandler", "usa", "ufc"))
     template_name = "djangobasicsapp/PassModel.html"
     context: dict[str, list[Authors]] = {"Authors": authors}
     return render(request, template_name, context)
 
 
+def builtin_filters_demo(request: HttpRequest) -> HttpResponse:
+    Processors = [
+        {"name": "Ryzen 3970", "cores": 32},
+        {"name": "Ryzen 3950", "cores": 16},
+        {"name": "Ryzen 3990", "cores": 64},
+    ]
+    dict = {
+        "ProbationPeriod": 4,
+        "FirstName": "Connors",
+        "LastName": "McGregor",
+        "PayForFight": 123456,
+        "FirstQuarter": ["Jan", "Feb", "Mar"],
+        "SecondQuarter": ["Apr", "May", "Jun"],
+        "FQuarter": [1, 2, 3],
+        "SQuarter": [4, 5, 6],
+        "AboutMe": "i'am Notorious and I'am Ruthless too!",
+        "now": datetime.now(),
+        "PreviousFight": "",
+        "NextFight": None,
+        "Processors": Processors,
+        "Message": "<h1>I am using escape</h1>",
+        "WebSite": "https://www.uiacademy.co.in",
+    }
+
+    return render(request, "djangobasicsapp/BIFDemo.html", dict)

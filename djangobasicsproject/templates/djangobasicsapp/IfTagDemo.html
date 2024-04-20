@@ -45,16 +45,15 @@
 </div>
 
 <div class="bg-info p-2 mt-1">
-  {% if Data.workingExperience > 10 and Data.workingExperience < 20 %}
-  <h1>
+  {% if Data.workingExperience > 10 and Data.workingExperience < 20 %} <h1>
     Hi {{Data.name}}, você é elegível para se tornar um desenvolvedor Sênior!!
-  </h1>
-  {% else %}
-  <h1>
-    Hi {{Data.name}}, sinto muito mas vocẽ não é elegível para o cargo de
-    desenvolvedor sênior
-  </h1>
-  {% endif %}
+    </h1>
+    {% else %}
+    <h1>
+      Hi {{Data.name}}, sinto muito mas vocẽ não é elegível para o cargo de
+      desenvolvedor sênior
+    </h1>
+    {% endif %}
 </div>
 
 <div class="bg-info p-2 mt-1">

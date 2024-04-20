@@ -1,0 +1,133 @@
+<!--<!doctype html>
+<html lang="en">
+  <head>
+    <title>IfTagDemo</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>-->
+
+
+{% extends 'djangobasicsapp/layout.html' %} {% block body_block %}
+<h1>Add filter example</h1>
+<p>{{ProbationPeriod | add:2 }}</p>
+<p>{{FirstName | add:" " | add:LastName }}</p>
+<p>{{2 | add:3}}</p>
+<p>Adding Strings list: {{ FirstQuarter | add:SecondQuarter }}</p>
+<p>Adding Integer list: {{ FQuarter | add:SQuarter }}</p>
+
+<h1>String casting filters</h1>
+<p>Adding slashes: {{AboutMe | addslashes}}</p>
+<p>Cap first charachter: {{AboutMe | capfirst}}</p>
+<p>Lower Case: {{AboutMe | lower}}</p>
+<p>Upper Case: {{AboutMe | upper}}</p>
+<p>Title Case: {{AboutMe | title}}</p>
+
+<h1>Date time filters</h1>
+<p>Now is {{now}}</p>
+<p>Day of Month with leading zeroes: {{now|date:"d"}}</p>
+<p>Day of Month without leading zeroes: {{now|date:"j"}}</p>
+<p>Day of week: {{now|date:"D"}}</p>
+<p>Day of week full text: {{now|date:"l"}}</p>
+<p>Day of week: {{now|date:"w"}}</p>
+<p>Day of year: {{now|date:"z"}}</p>
+<p>Week number: {{now|date:"W"}}</p>
+<p>Month Number with leading zeroes : {{ now|date:"m"}}</p>
+<p>Month Number without leading zeroes : : {{ now|date:"n"}}</p>
+<p>Month Name Upper : {{ now|date:"M"}}</p>
+<p>Month Name Lower : {{ now|date:"b"}}</p>
+<p>Month Name Full : {{ now|date:"F"}}</p>
+<p>Month Name Abbreviation : {{ now|date:"N"}}</p>
+<p>Number Of Days in a month : {{ now|date:"t"}}</p>
+<p>Year with Leading Zeroes : {{ now|date:"y"}}</p>
+<p>Year Without Leading zeroes : {{ now|date:"Y"}}</p>
+<p>Leap Year? : {{ now|date:"L"}}</p>
+
+<p>12 Hour Format without Leading Zeroes : {{ now|date:"g"}}</p>
+<p>24 Hour Format Without Leading zeroes : {{ now|date:"G"}}</p>
+<p>12 Hour Format : {{ now|date:"h"}}</p>
+<p>24 Hour Format : {{ now|date:"H"}}</p>
+<p>Minutes : {{ now|date:"i"}}</p>
+<p>Seconds : {{ now|date:"s"}}</p>
+<p>Micro Seconds : {{ now|date:"u"}}</p>
+<p>a.m or p.m : {{ now|date:"a"}}</p>
+<p>AM OR PM : {{ now|date:"A"}}</p>
+<p>Time in 12 Hour format : {{ now|date:"f"}}</p>
+<p>Time in 12 Hour format with am or pm : {{ now|date:"P"}}</p>
+<p>Using Multiple Specifiers {{ now|date:"D d M Y" }}</p>
+<p>Time : {{now|time:'H:i:s:u'}}</p>
+
+<h1>Sorting dictionaires</h1>
+
+<p>Sorting dictionary: {{ Processors | dictsort:"cores" }}</p>
+
+<div>
+  <ul>
+    {% for Processor in Processors %}
+    <li>
+      {{ Processor.name }} {{ Processor.cores }}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<p>Reverse sorting dictionary: {{ Processors | dictsortreversed:"cores" }}</p>
+
+<div>
+  <ul>
+    {% for Processor in Processors|dictsortreversed:"cores" %}
+    <li>
+      {{ Processor.name }} {{ Processor.cores }}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<h1>Miscelaneous filters</h1>
+
+<!--filtro de tamanho de arquivo-->
+<p>File size: {{ PayForFight|filesizeformat }}</p>
+<p>{{Message|safe}}</p>
+<p>{{Message|force_escape}}</p>
+{% autoescape off%}
+<p>{{Message|safe}}</p>
+{% endautoescape %}
+
+<!--filtro valor padrao-->
+<p>PreviusFight: {{ PreviusFight|default:"Not Available" }}</p>
+<p>Next Fight: {{ NextFight|default_if_none:"Not Available" }}</p>
+
+<h1>Numerical filters</h1>
+<!--filtro numerico-->
+<p>{{PayForFight|floatformat:"3"}}</p>
+<p>{{PayForFight|floatformat:"3g"}}</p>
+
+<p>{{PayForFight|divisibleby:"3"}}</p>
+<p>{{PayForFight|get_digit:"2"}}</p>
+
+<p>{{Processors|first}}</p>
+<p>{{Processors|last}}</p>
+
+<!--cut,join,slice-->
+<p>Cut: {{AboutMe|cut:" "}}</p>
+<p>{{Processors|join:" // "}}</p>
+<p>{{Processors|slice:":1"}}</p>
+
+<p>{{Processors|length}}</p>
+<p>{{Processors|make_list}}</p>
+<p>{{Processors|random}}</p>
+
+<p>{{FirstName|truncatechars:21}}</p>
+<p>{{AboutMe|truncatewords:2}}</p>
+<p>{{AboutMe|wordcount}}</p>
+<p>{{AboutMe|wordwrap:2}}</p>
+
+{% endblock %}
+
+<!--</body></html>--!-->

@@ -1,115 +1,102 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
-    <title>Django training demo</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-      integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI="
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container">
-        <a class="navbar-brand" href="Index">Django Training Demos</a>
 
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="Index"><span>Index</span></a>
-          </li>
+<head>
+  <title>Django training demo</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI=" crossorigin="anonymous" />
+</head>
 
-          <li class="nav-item active">
-            <a class="nav-link" href="Home"><span>Home</span></a>
-          </li>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="Index">Django Training Demos</a>
 
-          <li class="nav-item active">
-            <a class="nav-link" href="UseVariables"
-              ><span>Variables Demo</span></a
-            >
-          </li>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="Index"><span>Index</span></a>
+        </li>
 
-          <li class="nav-item active">
-            <a class="nav-link" href="GetRequestDemo"
-              ><span>QueryString demo</span></a
-            >
-          </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="Home"><span>Home</span></a>
+        </li>
 
-          <li class="nav-item active">
-            <a class="nav-link" href="ShowTime">
-              <span>Working with templates</span>
-            </a>
-          </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="UseVariables"><span>Variables Demo</span></a>
+        </li>
 
-          <li class="nav-item active">
-            <a class="nav-link" href="IfTagDemo">
-              <span>If template tag</span>
-            </a>
-          </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="GetRequestDemo"><span>QueryString demo</span></a>
+        </li>
 
-          <li class="nav-item active">
-            <a class="nav-link" href="ShowProducts">
-              <span>For template tag</span>
-            </a>
-          </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="ShowTime">
+            <span>Working with templates</span>
+          </a>
+        </li>
 
-          <li class="nav-item active">
-            <a class="nav-link" href="ShowUsers">
-              <span>Call rest api 1</span>
-            </a>
-          </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="IfTagDemo">
+            <span>If template tag</span>
+          </a>
+        </li>
 
-          <li class="nav-item active">
-            <a class="nav-link" href="ShowUsers2">
-              <span>Call rest api 2</span>
-            </a>
-          </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="ShowProducts">
+            <span>For template tag</span>
+          </a>
+        </li>
 
-          <li class="nav-item active">
-            <a class="nav-link" href="ShowUserDetails">
-              <span>Call rest api 3</span>
-            </a>
-          </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="ShowUsers">
+            <span>Call rest api 1</span>
+          </a>
+        </li>
 
-          <li class="nav-item active">
-            <a class="nav-link" href="PassModel">
-              <span>Pass model to template</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+        <li class="nav-item active">
+          <a class="nav-link" href="ShowUsers2">
+            <span>Call rest api 2</span>
+          </a>
+        </li>
 
-    {% block body_block %} {% endblock %}
+        <li class="nav-item active">
+          <a class="nav-link" href="ShowUserDetails">
+            <span>Call rest api 3</span>
+          </a>
+        </li>
 
-    <!-- scripts session -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.js"
-      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-      crossorigin="anonymous"
-    ></script>
-  </body>
+        <li class="nav-item active">
+          <a class="nav-link" href="PassModel">
+            <span>Pass model to template</span>
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="BIFDemo">
+            <span>BIF Demo</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  {% block body_block %} {% endblock %}
+
+  <!-- scripts session -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+    integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
+</body>
+
 </html>

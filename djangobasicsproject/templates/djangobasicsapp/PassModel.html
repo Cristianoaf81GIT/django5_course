@@ -11,11 +11,13 @@
       
     {% for author in Authors %}
     
-      <tr>
+      <!--<tr>
         <td>{{author.author_name}}</td> 
         <td>{{author.country}}</td> 
         <td>{{author.book_name}}</td>
-      </tr>
+      </tr>-->
+
+      {% include "djangobasicsapp/_ShowAuthorsPartialView.html" with author=author %}
     
     {% endfor %}
     
