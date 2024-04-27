@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 from datetime import datetime
 import logging
-from typing import Any, TypedDict
+from typing import Any, Dict, TypedDict, Union
 from dataclasses import dataclass
 import requests
 from pydantic import BaseModel
@@ -345,3 +345,17 @@ def builtin_filters_demo(request: HttpRequest) -> HttpResponse:
     }
 
     return render(request, "djangobasicsapp/BIFDemo.html", dict)
+
+
+def custom_filters_demo(request: HttpRequest) -> HttpResponse:
+    webframework: Dict[str, Union[str, int]] = {
+        "Description": "Django is a python frameword that makes easy to create dinamic web applications",  # noqa
+        "InDemand": "4.8",
+        "PollNumber": 57650,
+    }
+
+    return render(
+        request=request,
+        template_name="djangobasicsapp/TestCustomFilters.html",
+        context=webframework,
+    )  # noqa

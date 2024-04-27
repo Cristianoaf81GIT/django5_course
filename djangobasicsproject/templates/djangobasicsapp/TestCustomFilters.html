@@ -1,0 +1,27 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Test Custom Filters Demo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body> -->
+{% extends 'djangobasicsapp/layout.html' %}
+
+{% block body_block %}
+{% load customfilters %}
+
+<ul>
+  <li>Course description: {{ Description | firstfiveupper }}</li>
+  <li>Course description: {{ Description | firstfiveupper | lower }}</li>
+  <li>Course description: {{ Description | firstnupper:10 }}</li>
+  <li>Course description: {{ Description | lengthlimit:20 }}</li>
+  <li>In Demand: {{InDemand | rating }}</li>
+  <li>Poll number: {{PollNumber}} i.e {{ PollNumber | convertnumber2words }}</li>
+</ul>
+{% endblock %}
+<!--</body>
+
+</html>-->

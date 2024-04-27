@@ -18,4 +18,7 @@ urlpatterns: Final[list[URLResolver | URLPattern]] = [
     path("ShowUserDetails", views.LoadUserDetails, name="ShowUserDetails"),
     path("PassModel", views.pass_model_2_template, name="PassModel"),
     path("BIFDemo", views.builtin_filters_demo, name="BIF"),
+    path(
+        "CustomFiltersDemo", views.custom_filters_demo, name="CustomFiltersDemo"  # noqa
+    ),  # noqa
 ]
