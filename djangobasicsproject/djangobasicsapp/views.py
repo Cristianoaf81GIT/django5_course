@@ -359,3 +359,9 @@ def custom_filters_demo(request: HttpRequest) -> HttpResponse:
         template_name="djangobasicsapp/TestCustomFilters.html",
         context=webframework,
     )  # noqa
+
+
+def test_static_files(request: HttpRequest) -> HttpResponse:
+    return render(
+        request=request, template_name="djangobasicsapp/TestStaticFiles.html"
+    )  # noqa

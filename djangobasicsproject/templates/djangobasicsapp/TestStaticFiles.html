@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Testing static files</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% load static %}
+  <link href="{% static 'djangobasicsapp/css/bootstrap.min.css' %}" rel="stylesheet">
+  <script src="{% static 'djangobasicsapp/js/bootstrap.bundle.min.js' %}"></script>
+</head>
+
+<body>
+  <table class="table">
+    <caption>Working with static files</caption>
+    <thead>
+      <td><img src="{% static 'djangobasicsapp/images/1.jpeg' %}" alt="image01" /></td>
+      <td><img src="{% static 'djangobasicsapp/images/2.png' %}" alt="image02" /></td>
+    </thead>
+  </table>
+</body>
+
+</html>

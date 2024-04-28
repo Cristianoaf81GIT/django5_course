@@ -11,15 +11,15 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-import os 
+import os
 from datetime import datetime
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-TEMPLATES_DIR = BASE_DIR/'templates' 
+TEMPLATES_DIR = BASE_DIR / "templates"
 
 # Build path to store application logs
-LOGGING_DIR = os.path.join(BASE_DIR, 'logs')
+LOGGING_DIR = os.path.join(BASE_DIR, "logs")
 
 if not os.path.exists(LOGGING_DIR):
     os.makedirs(LOGGING_DIR)
@@ -29,7 +29,9 @@ if not os.path.exists(LOGGING_DIR):
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-#=f@*&fnfqzz(^cnuvr43-%)!qe@c-82nzuaoaa)ry$%n1a6kz"
+SECRET_KEY = (
+    "django-insecure-#=f@*&fnfqzz(^cnuvr43-%)!qe@c-82nzuaoaa)ry$%n1a6kz"  # noqa
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -48,7 +50,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "djangobasicsapp",
     "djangobasicsapp2",
-    "djangobasicsapp3"
+    "djangobasicsapp3",
 ]
 
 MIDDLEWARE = [
@@ -98,16 +100,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",  # noqa
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",  # noqa
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",  # noqa
     },
 ]
 
@@ -123,8 +125,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-TIME_ZONE = 'America/Sao_Paulo'
-
+TIME_ZONE = "America/Sao_Paulo"
 
 
 # Static files (CSS, JavaScript, Images)
@@ -132,11 +133,12 @@ TIME_ZONE = 'America/Sao_Paulo'
 
 STATIC_URL = "static/"
 
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 
 
 # logging system config
@@ -145,36 +147,33 @@ LOGGING = {
     "disable_existing_loggers": False,
     "formatters": {
         "verbose": {
-            "format": "{asctime}-{filename}-{funcName}-{levelname}-{levelno}-{lineno}-{message}",
-            "style": "{"
+            "format": "{asctime}-{filename}-{funcName}-{levelname}-{levelno}-{lineno}-{message}",  # noqa
+            "style": "{",
         },
     },
     "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-            "formatter": "verbose"
-        },
+        "console": {"class": "logging.StreamHandler", "formatter": "verbose"},
         # custom log handler
         "file": {
             "level": "DEBUG",
             "class": "logging.FileHandler",
-            "filename": os.path.join(LOGGING_DIR, f'{datetime.now()}.log'),
-            "formatter": "verbose"
-        }
+            "filename": os.path.join(LOGGING_DIR, f"{datetime.now()}.log"),
+            "formatter": "verbose",
+        },
     },
     "root": {
         "handlers": [
-            "console", 
-            #"file" # you can add new handlers here
+            "console",
+            # "file" # you can add new handlers here
         ],
-        "level": "DEBUG" # DEBUG, INFO, WARNING, ERROR, CRITICAL
+        "level": "DEBUG",  # DEBUG, INFO, WARNING, ERROR, CRITICAL
     },
-    # also u can specify the logger throught the loggers property or in root property
+    # also u can specify the logger throught the loggers property or in root property # noqa
     "loggers": {
         "filelogger": {
             "handlers": ["file"],
             "level": "DEBUG",
-            "propagate": True
-        }
-    }
+            "propagate": True,
+        }  # noqa
+    },
 }

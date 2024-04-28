@@ -21,4 +21,5 @@ urlpatterns: Final[list[URLResolver | URLPattern]] = [
     path(
         "CustomFiltersDemo", views.custom_filters_demo, name="CustomFiltersDemo"  # noqa
     ),  # noqa
+    path("TestStaticFiles", views.test_static_files, name="TestStaticFiles"),
 ]
