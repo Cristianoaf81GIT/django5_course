@@ -10,4 +10,7 @@ urlpatterns = [
         views.employee_details,
         name="EmployeeDetails",  # noqa
     ),  # noqa
+    path(
+        "EmployeeDelete/<int:id>", views.employee_delete, name="EmployeeDelete"
+    ),  # noqa
 ]

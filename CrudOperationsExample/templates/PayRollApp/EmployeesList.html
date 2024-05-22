@@ -33,7 +33,7 @@
           <!--<a href="/PayRollApp/EmployeeDetails/{{emp.id}}">Details</a>-->
           <a href="{% url 'EmployeeDetails' id=emp.id %}">Details</a>
           <a href="/PayRollApp/EmployeeUpdate/{{emp.id}}">Update</a>
-          <a href="/PayRollApp/EmployeeDelete/{{emp.id}}">Delete</a>
+          <a href="{% url 'EmployeeDelete' id=emp.id %}">Delete</a>
         </td>
       </tr>
       {% endfor%}
