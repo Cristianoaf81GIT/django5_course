@@ -2,6 +2,7 @@ from typing import Dict
 from django.shortcuts import redirect, render
 from django.http import HttpRequest, HttpResponse
 from .models import Employee
+from .forms import EmployeeForms
 
 # Create your views here.
 
@@ -28,3 +29,17 @@ def employee_delete(request: HttpRequest, id: int) -> HttpResponse:
         employee.delete()
         return redirect("EmployeeList")
     return render(request=request, template_name=template_file, context=context)  # noqa
+
+
+def employee_update(request: HttpRequest, id: int) -> HttpResponse:
+    template_file = "PayRollApp/EmployeeUpdate.html"
+    employee = Employee.objects.get(id=id)  # pyright: ignore
+    form = EmployeeForms(instance=employee)  # create a form based model from employee
+    context: Dict[str, EmployeeForms] = {"form": form}
+    if request.method == "POST":
+        form = EmployeeForms(request.POST, instance=employee)
+        if form.is_valid():
+            form.save()
+        return redirect("EmployeeList")
+
+    return render(request=request, template_name=template_file, context=context)
