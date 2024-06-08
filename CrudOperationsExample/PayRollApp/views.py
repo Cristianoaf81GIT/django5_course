@@ -43,3 +43,15 @@ def employee_update(request: HttpRequest, id: int) -> HttpResponse:
         return redirect("EmployeeList")
 
     return render(request=request, template_name=template_file, context=context)
+
+
+def employee_insert(request: HttpRequest) -> HttpResponse:
+    template_file = "PayRollApp/EmployeeInsert.html"
+    form = EmployeeForms()
+    if request.method == "POST":
+        form = EmployeeForms(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("EmployeeList")
+
+    return render(request, template_file, {"form": form})

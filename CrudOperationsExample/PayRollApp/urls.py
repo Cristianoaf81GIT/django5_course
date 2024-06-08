@@ -12,4 +12,5 @@ urlpatterns = [
     ),  # noqa
     path("EmployeeDelete/<int:id>", views.employee_delete, name="EmployeeDelete"),  # noqa
     path("EmployeeUpdate/<int:id>", views.employee_update, name="EmployeeUpdate"),
+    path("EmployeeInsert", views.employee_insert, name="EmployeeInsert"),
 ]
