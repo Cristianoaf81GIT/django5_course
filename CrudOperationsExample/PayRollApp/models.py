@@ -4,15 +4,15 @@ from django.db import models
 
 # Create your models here.
 class Department(models.Model):
-    dept_name = models.CharField(max_length=30)
-    location_name = models.CharField(max_length=30)
+    dept_name = models.CharField(max_length=255)
+    location_name = models.CharField(max_length=255)
 
     def __str__(self) -> Any:
         return self.dept_name
 
 
 class Country(models.Model):
-    country_name = models.CharField(max_length=30)
+    country_name = models.CharField(max_length=255)
 
     def __str__(self) -> Any:
         return self.country_name
@@ -37,6 +37,22 @@ class Employee(models.Model):
     birth_date = models.DateField()
     hire_date = models.DateField()
     notes = models.CharField(max_length=200)
-    country = models.CharField(max_length=100, choices=countries, default=None)
+    # country = models.CharField(max_length=100, choices=countries, default=None)
     email = models.EmailField(default="", max_length=100)
     phone_number = models.CharField(default="", max_length=20)
+    emp_department = models.ForeignKey(
+        to="Department",  # can be model object itself or string if model is not defined yet
+        default=0,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="Departments",
+    )
+    emp_country = models.ForeignKey(
+        to="Country",
+        default=0,
+        on_delete=models.SET_NULL,
+        related_name="Countries",
+        null=True,
+        blank=True,
+    )
