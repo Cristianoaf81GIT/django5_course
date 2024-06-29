@@ -21,6 +21,9 @@
         <td>Last Name</td>
         <td>Title</td>
         <td>Salary</td>
+        <td>Department name</td>
+        <td>Country name</td>
+        <td>Location</td>
         <td>Actions</td>
       </tr>
     </thead>
@@ -32,6 +35,9 @@
         <td>{{emp.last_name}}</td>
         <td>{{emp.title}}</td>
         <td>{{emp.salary}}</td>
+        <td>{{emp.emp_department.dept_name}}</td>
+        <td>{{emp.emp_country.country_name}}</td>
+        <td>{{emp.emp_department.location_name}}</td>
         <td>
           <!--<a href="/PayRollApp/EmployeeDetails/{{emp.id}}">Details</a>-->
           <a href="{% url 'EmployeeDetails' id=emp.id %}">Details</a>

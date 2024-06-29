@@ -8,7 +8,9 @@ from .forms import EmployeeForms
 
 
 def employee_list(request: HttpRequest) -> HttpResponse:
-    employees = Employee.objects.all()  # pyright: ignore
+    # employees = Employee.objects.all()  # pyright: ignore
+    employees = Employee.objects.select_related("emp_department", "emp_country").all()  # pyright: ignore
+    print(employees.query)
     template_file = "PayRollApp/EmployeesList.html"
     context: Dict[str, list[Employee]] = dict({"Employees": employees})
     return render(request=request, template_name=template_file, context=context)  # noqa
