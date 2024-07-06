@@ -18,7 +18,12 @@ def employee_list(request: HttpRequest) -> HttpResponse:
 
 def employee_details(request: HttpRequest, id: int) -> HttpResponse:
     template_file = "PayRollApp/EmployeeDetails.html"
-    employee: Employee = Employee.objects.get(id=id)  # pyright: ignore
+    # employee: Employee = Employee.objects.get(id=id)  # pyright: ignore
+    employee: Employee = (
+        Employee.objects.select_related("emp_department", "emp_country")  # pyright: ignore
+        .all()
+        .filter(id=id)
+    )[0]
     context: Dict[str, Employee] = {"Employee": employee}
     return render(request=request, template_name=template_file, context=context)  # noqa
 
