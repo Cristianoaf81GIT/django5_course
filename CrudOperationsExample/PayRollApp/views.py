@@ -30,7 +30,12 @@ def employee_details(request: HttpRequest, id: int) -> HttpResponse:
 
 def employee_delete(request: HttpRequest, id: int) -> HttpResponse:
     template_file = "PayRollApp/EmployeeDelete.html"
-    employee: Employee = Employee.objects.get(id=id)  # pyright:ignore
+    # employee: Employee = Employee.objects.get(id=id)  # pyright:ignore
+    employee: Employee = (
+        Employee.objects.select_related("emp_department", "emp_country")  # pyright:ignore
+        .all()
+        .filter(id=id)[0]
+    )
     context: Dict[str, Employee] = {"Employee": employee}
     if request.method == "POST":
         employee.delete()
