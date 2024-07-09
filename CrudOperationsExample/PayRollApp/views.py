@@ -45,11 +45,26 @@ def employee_delete(request: HttpRequest, id: int) -> HttpResponse:
 
 def employee_update(request: HttpRequest, id: int) -> HttpResponse:
     template_file = "PayRollApp/EmployeeUpdate.html"
-    employee = Employee.objects.get(id=id)  # pyright: ignore
-    form = EmployeeForms(instance=employee)  # create a form based model from employee
+    employee = (
+        Employee.objects.select_related("emp_department", "emp_country")  # pyright: ignore
+        .all()
+        .filter(id=id)
+    )
+
+    emp_data = employee[0] or None
+    form = EmployeeForms(instance=emp_data)  # create a form based model from employee
+
     context: Dict[str, EmployeeForms] = {"form": form}
+
+    #    for emp in employee:
+    #        emp_data = emp
+    #        form = EmployeeForms(
+    #            instance=emp_data
+    #        )  # create a form based model from employee
+    #        context = {"form": form}
+
     if request.method == "POST":
-        form = EmployeeForms(request.POST, instance=employee)
+        form = EmployeeForms(request.POST, instance=emp_data)
         if form.is_valid():
             form.save()
         return redirect("EmployeeList")
