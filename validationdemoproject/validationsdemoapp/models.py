@@ -14,5 +14,5 @@ class UserRegistration(models.Model):
     profile = models.TextField(verbose_name="Profile of User", blank=True)
     website_url = models.URLField(verbose_name="Website Url")
     terms_conditions = models.BooleanField(verbose_name="Terms & Conditions")
-    favwebsite_url = models.CharField(max_length=256) # 10:14
+    favwebsite_url = models.CharField(max_length=256)
 

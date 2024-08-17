@@ -21,6 +21,6 @@ from validationsdemoapp import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("signup/", views.sign_up,name="signup"),
-    path("/", views.sign_up,name="signuphome"),
+    path("", views.sign_up,name="signuphome"),
     # path("signup", view=views.sign_up,name="sign_up")
 ]
