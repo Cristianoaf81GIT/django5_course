@@ -8,7 +8,7 @@ class UserRegistrationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UserRegistrationForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            if not isinstance(visible.field.widget, forms.RadioSelect):
+            if not isinstance(visible.field.widget, forms.RadioSelect) and not isinstance(visible.field.widget, forms.CheckboxInput):
                 visible.field.widget.attrs["class"] = "form-control"
 
     class Meta:
@@ -31,5 +31,6 @@ class UserRegistrationForm(forms.ModelForm):
             "country": forms.Select(choices=countries),
             "email": forms.EmailInput(),
             "website_url": forms.URLInput(),
-            "date_of_birth": forms.DateInput(attrs={"type": "date"})
+            "date_of_birth": forms.DateInput(attrs={"type": "date"}),
+            "terms_conditions": forms.CheckboxInput()
         }
