@@ -1,4 +1,5 @@
 from django import forms
+from django.core.validators import re
 
 from validationsdemoapp.models import UserRegistration
 
@@ -34,3 +35,17 @@ class UserRegistrationForm(forms.ModelForm):
             "date_of_birth": forms.DateInput(attrs={"type": "date"}),
             "terms_conditions": forms.CheckboxInput()
         }
+    
+    def clean_phone_number(self) -> str | None:
+        """Field validation method, validates user phone number
+           
+           Returs:
+               str | None: string with validated phone number or none 
+        """
+
+        phone_data: None | str = self.cleaned_data.get("phone_number")
+        if phone_data:
+            pattern = re.compile(r"(0|91)?[6-9][0-9]{9}")
+            if not re.fullmatch(pattern, phone_data):
+                raise forms.ValidationError("Ivalid phone number! Example: +916234567891")
+            return phone_data
