@@ -2,8 +2,17 @@ from django.core.validators import (
     MaxValueValidator,
     MinLengthValidator,
     MinValueValidator,
+    ValidationError,
+    re,
 )
 from django.db import models
+
+# validators
+def validate_favwebsite(url: str) -> None:
+    patter = re.compile(r"^(http|https)\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(/\S*)?$") 
+    if not re.fullmatch(patter,url):
+        raise ValidationError("Invalid URL!: www.google.com")
+
 
 # Create your models here.
 class UserRegistration(models.Model):
@@ -19,5 +28,5 @@ class UserRegistration(models.Model):
     profile = models.TextField(verbose_name="Profile of User", blank=True)
     website_url = models.URLField(verbose_name="Website Url")
     terms_conditions = models.BooleanField(verbose_name="Terms & Conditions")
-    favwebsite_url = models.CharField(max_length=256)
+    favwebsite_url = models.CharField(max_length=256, validators=[validate_favwebsite])
 
