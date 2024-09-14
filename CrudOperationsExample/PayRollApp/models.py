@@ -56,3 +56,9 @@ class Employee(models.Model):
         null=True,
         blank=True,
     )
+
+
+class PartTimeEmployee(models.Model):
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    title_name = models.CharField(max_length=30)
