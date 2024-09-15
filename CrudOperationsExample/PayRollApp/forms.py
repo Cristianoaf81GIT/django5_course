@@ -1,5 +1,7 @@
 from django import forms
-from .models import Employee
+from django.forms import modelform_factory
+from .models import Employee, PartTimeEmployee
+
 
 
 # creating a form based model
@@ -25,3 +27,12 @@ class EmployeeForms(forms.ModelForm):
                 format="%Y-%m-%d",
             ),
         }
+
+PartTimeEmployeeForm = modelform_factory(PartTimeEmployee, fields=['first_name', 'last_name', 'title'])
+
+class DynamicPartTimeEmployeeForm(PartTimeEmployeeForm):
+
+    def __init__(self, *args, **kwargs) -> None:
+        super(PartTimeEmployeeForm, self).__init__(*args, **kwargs)
+        for field in self.fields.values(): # pyright: ignore reportAttributeAccessIssue
+            field.widget.attrs.pop("required", None)
