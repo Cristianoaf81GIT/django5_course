@@ -28,7 +28,7 @@ class EmployeeForms(forms.ModelForm):
             ),
         }
 
-PartTimeEmployeeForm = modelform_factory(PartTimeEmployee, fields=['first_name', 'last_name', 'title'])
+PartTimeEmployeeForm = modelform_factory(PartTimeEmployee, fields=['first_name', 'last_name', 'title_name'])
 
 class DynamicPartTimeEmployeeForm(PartTimeEmployeeForm):
 

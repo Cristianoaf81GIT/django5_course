@@ -2,7 +2,7 @@ from typing import Dict
 from django.shortcuts import redirect, render
 from django.http import HttpRequest, HttpResponse
 from .models import Employee
-from .forms import EmployeeForms
+from .forms import EmployeeForms, PartTimeEmployeeForm
 
 # Create your views here.
 
@@ -82,3 +82,30 @@ def employee_insert(request: HttpRequest) -> HttpResponse:
             return redirect("EmployeeList")
 
     return render(request, template_file, {"form": form})
+
+def bulk_insert_demo(request: HttpRequest) -> HttpResponse:
+    extra_forms = 10
+    forms = [
+        PartTimeEmployeeForm(request.POST or None, #pyright: ignore reportCallIssue
+        prefix=f"employee-{i}") for i in range(extra_forms)
+    ]
+    status = "" 
+
+    
+    if request.method == "POST":
+        for form in forms:
+            if form.is_valid() and form.cleaned_data.get("first_name", ""): #pyright: ignore reportAttributeAccessIssue
+                form.save() #pyright: ignore reportAttributeAccessIssue
+                status = "Records were inserted successfully!!!"
+
+    context = {
+        "forms": forms,
+        "extra_forms": range(extra_forms),
+        "status": status
+    }
+
+    template = "PayRollApp/ParttimeEmployeeForm_list.html" 
+
+    return render(request=request, template_name=template, context=context)
+
+
