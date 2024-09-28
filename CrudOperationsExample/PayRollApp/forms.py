@@ -36,3 +36,14 @@ class DynamicPartTimeEmployeeForm(PartTimeEmployeeForm):
         super(PartTimeEmployeeForm, self).__init__(*args, **kwargs)
         for field in self.fields.values(): # pyright: ignore reportAttributeAccessIssue
             field.widget.attrs.pop("required", None)
+
+
+
+class NewPartTimeEmployeeForm(forms.ModelForm):
+
+    class Meta:
+        model=PartTimeEmployee
+        fields="__all__" 
+
+
+PartTimeEmployeeFormSet = forms.modelformset_factory(PartTimeEmployee, form=NewPartTimeEmployeeForm, extra=10) 

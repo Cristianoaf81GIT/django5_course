@@ -1,8 +1,8 @@
 from typing import Dict
-from django.shortcuts import redirect, render
+from django.shortcuts import HttpResponseRedirect, redirect, render
 from django.http import HttpRequest, HttpResponse
-from .models import Employee
-from .forms import EmployeeForms, PartTimeEmployeeForm
+from .models import Employee, PartTimeEmployee
+from .forms import EmployeeForms, PartTimeEmployeeForm, PartTimeEmployeeFormSet
 
 # Create your views here.
 
@@ -107,5 +107,19 @@ def bulk_insert_demo(request: HttpRequest) -> HttpResponse:
     template = "PayRollApp/ParttimeEmployeeForm_list.html" 
 
     return render(request=request, template_name=template, context=context)
+
+
+def new_bulk_insert_demo(request: HttpRequest) -> HttpResponse | HttpResponseRedirect | None:
+    if request.method == "POST":
+        formset = PartTimeEmployeeFormSet(request.POST, prefix="employee")
+        if formset.is_valid():
+            employees = formset.save(commit=False)
+            PartTimeEmployee.objects.bulk_create(employees) #pyright: ignore
+            return redirect("NewBulkInsert")
+    else:
+        formset = PartTimeEmployeeFormSet(queryset=PartTimeEmployee.objects.none(), prefix="employee") # pyright: ignore [reportAttributeAccessIssue
+        context = {"formset": formset}                                                                                    
+        template="PayRollApp/NewBulkInsert.html"
+        return render(request=request,template_name=template,context=context)
 
 

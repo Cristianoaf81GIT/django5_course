@@ -13,5 +13,6 @@ urlpatterns = [
     path("EmployeeDelete/<int:id>", views.employee_delete, name="EmployeeDelete"),  # noqa
     path("EmployeeUpdate/<int:id>", views.employee_update, name="EmployeeUpdate"),
     path("EmployeeInsert", views.employee_insert, name="EmployeeInsert"),
-    path("BulkEmployeeDemo", views.bulk_insert_demo, name="BulkEmployeeDemo")
+    path("BulkEmployeeDemo", views.bulk_insert_demo, name="BulkEmployeeDemo"),
+    path("NewBulkInsert", views.new_bulk_insert_demo, name="NewBulkInsert")
 ]
