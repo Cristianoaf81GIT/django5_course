@@ -14,5 +14,6 @@ urlpatterns = [
     path("EmployeeUpdate/<int:id>", views.employee_update, name="EmployeeUpdate"),
     path("EmployeeInsert", views.employee_insert, name="EmployeeInsert"),
     path("BulkEmployeeDemo", views.bulk_insert_demo, name="BulkEmployeeDemo"),
-    path("NewBulkInsert", views.new_bulk_insert_demo, name="NewBulkInsert")
+    path("NewBulkInsert", views.new_bulk_insert_demo, name="NewBulkInsert"),
+    path("BulkUpdate", views.bulk_update_demo, name="BulkUpdate")
 ]

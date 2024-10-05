@@ -122,4 +122,21 @@ def new_bulk_insert_demo(request: HttpRequest) -> HttpResponse | HttpResponseRed
         template="PayRollApp/NewBulkInsert.html"
         return render(request=request,template_name=template,context=context)
 
+def bulk_update_demo(request: HttpRequest ) -> HttpResponse:
+    employees = PartTimeEmployee.objects.all() #pyright: ignore
+    
+    form = [
+        PartTimeEmployeeForm(
+            request.POST or None, #pyright: ignore
+            instance=employee, 
+            prefix=f'employee-{employee.id}'
+        ) 
+        for employee in employees
+    ]
+
+    return render(request, 'PayRollApp/BulkUpdate.html', {'forms': form, 'employees': employees})
+
+
+
+
 

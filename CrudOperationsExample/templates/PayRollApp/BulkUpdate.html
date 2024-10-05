@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Bulk update demo</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">  </head>
+
+<body>
+    
+    <div class="container mt-5">
+        <center><h2>Edit employee records</h2></center><br/>
+        <form method="get">
+            {% csrf_token %}
+            <div class="form-row font-weight-bold">
+                <div class="col-md-1 mb-3"><center>Id</center></div>
+                <div class="col-md-1 mb-3"><center>First name</center></div>
+                <div class="col-md-1 mb-3"><center>Last name</center></div>
+                <div class="col-md-1 mb-3"><center>Title</center></div>
+            </div>
+            {% for form in forms %}
+                <div class="form-row">
+                    <div class="col-md-1 mb-3"><center>{{form.instance.id}}</center></div>
+                    <div class="col-md-4 mb-3"><center>{{form.first_name}}</center></div>
+                    <div class="col-md-4 mb-3"><center>{{form.last_name}}</center></div>
+                    <div class="col-md-3 mb-3"><center>{{form.title_name}}</center></div>
+                </div>
+            {% endfor %}
+            <center><button type="submit" class="btn btn-primary">Submit</button></center>
+        </form>
+    </div>
+
+  
+  <!--js-->      
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <!---->
+</body>
+
+</html>
+
