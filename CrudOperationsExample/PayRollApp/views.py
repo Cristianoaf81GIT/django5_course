@@ -125,7 +125,7 @@ def new_bulk_insert_demo(request: HttpRequest) -> HttpResponse | HttpResponseRed
 def bulk_update_demo(request: HttpRequest ) -> HttpResponse:
     employees = PartTimeEmployee.objects.all() #pyright: ignore
     
-    form = [
+    forms = [
         PartTimeEmployeeForm(
             request.POST or None, #pyright: ignore
             instance=employee, 
@@ -133,8 +133,24 @@ def bulk_update_demo(request: HttpRequest ) -> HttpResponse:
         ) 
         for employee in employees
     ]
+    
+    if request.method == 'POST':
+        print('executando...')                                                                                                                          
+        updated_data = []
+        for form in forms:
+          if form.is_valid(): #pyright:ignore
+            print(form.is_valid()) #pyright:ignore
+            print(form.instance)    #pyright:ignore                                                                                                                      
+            employee = form.instance #pyright: ignore
+            employee.first_name = form.cleaned_data['first_name'] #pyright: ignore                                                                                                                          
+            employee.last_name = form.cleaned_data['last_name'] #pyright: ignore                                                                                                                         
+            employee.title_name = form.cleaned_data['title_name'] #pyright: ignore                                                                                                                         
+            updated_data.append(employee)     
+        print(updated_data)
+        PartTimeEmployee.objects.bulk_update(updated_data,['first_name', 'last_name', 'title_name']) #pyright: ignore                        
 
-    return render(request, 'PayRollApp/BulkUpdate.html', {'forms': form, 'employees': employees})
+
+    return render(request, 'PayRollApp/BulkUpdate.html', {'forms': forms, 'employees': employees})
 
 
 
