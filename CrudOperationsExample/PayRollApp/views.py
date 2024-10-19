@@ -83,76 +83,94 @@ def employee_insert(request: HttpRequest) -> HttpResponse:
 
     return render(request, template_file, {"form": form})
 
+
 def bulk_insert_demo(request: HttpRequest) -> HttpResponse:
     extra_forms = 10
     forms = [
-        PartTimeEmployeeForm(request.POST or None, #pyright: ignore reportCallIssue
-        prefix=f"employee-{i}") for i in range(extra_forms)
+        PartTimeEmployeeForm(
+            request.POST or None,  # pyright: ignore reportCallIssue
+            prefix=f"employee-{i}",
+        )
+        for i in range(extra_forms)
     ]
-    status = "" 
+    status = ""
 
-    
     if request.method == "POST":
         for form in forms:
-            if form.is_valid() and form.cleaned_data.get("first_name", ""): #pyright: ignore reportAttributeAccessIssue
-                form.save() #pyright: ignore reportAttributeAccessIssue
+            if form.is_valid() and form.cleaned_data.get("first_name", ""):  # pyright: ignore reportAttributeAccessIssue
+                form.save()  # pyright: ignore reportAttributeAccessIssue
                 status = "Records were inserted successfully!!!"
 
-    context = {
-        "forms": forms,
-        "extra_forms": range(extra_forms),
-        "status": status
-    }
+    context = {"forms": forms, "extra_forms": range(extra_forms), "status": status}
 
-    template = "PayRollApp/ParttimeEmployeeForm_list.html" 
+    template = "PayRollApp/ParttimeEmployeeForm_list.html"
 
     return render(request=request, template_name=template, context=context)
 
 
-def new_bulk_insert_demo(request: HttpRequest) -> HttpResponse | HttpResponseRedirect | None:
+def new_bulk_insert_demo(
+    request: HttpRequest,
+) -> HttpResponse | HttpResponseRedirect | None:
     if request.method == "POST":
         formset = PartTimeEmployeeFormSet(request.POST, prefix="employee")
         if formset.is_valid():
             employees = formset.save(commit=False)
-            PartTimeEmployee.objects.bulk_create(employees) #pyright: ignore
+            PartTimeEmployee.objects.bulk_create(employees)  # pyright: ignore
             return redirect("NewBulkInsert")
     else:
-        formset = PartTimeEmployeeFormSet(queryset=PartTimeEmployee.objects.none(), prefix="employee") # pyright: ignore [reportAttributeAccessIssue
-        context = {"formset": formset}                                                                                    
-        template="PayRollApp/NewBulkInsert.html"
-        return render(request=request,template_name=template,context=context)
+        formset = PartTimeEmployeeFormSet(
+            queryset=PartTimeEmployee.objects.none(),  # pyright: ignore
+            prefix="employee",
+        )
+        context = {"formset": formset}
+        template = "PayRollApp/NewBulkInsert.html"
+        return render(request=request, template_name=template, context=context)
 
-def bulk_update_demo(request: HttpRequest ) -> HttpResponse:
-    employees = PartTimeEmployee.objects.all() #pyright: ignore
-    
+
+def bulk_update_demo(request: HttpRequest) -> HttpResponse:
+    employees = PartTimeEmployee.objects.all()  # pyright: ignore
+
     forms = [
         PartTimeEmployeeForm(
-            request.POST or None, #pyright: ignore
-            instance=employee, 
-            prefix=f'employee-{employee.id}'
-        ) 
+            request.POST or None,  # pyright: ignore
+            instance=employee,
+            prefix=f"employee-{employee.id}",
+        )
         for employee in employees
     ]
-    
-    if request.method == 'POST':
-        print('executando...')                                                                                                                          
+
+    if request.method == "POST":
+        print("executando...")
         updated_data = []
         for form in forms:
-          if form.is_valid(): #pyright:ignore
-            print(form.is_valid()) #pyright:ignore
-            print(form.instance)    #pyright:ignore                                                                                                                      
-            employee = form.instance #pyright: ignore
-            employee.first_name = form.cleaned_data['first_name'] #pyright: ignore                                                                                                                          
-            employee.last_name = form.cleaned_data['last_name'] #pyright: ignore                                                                                                                         
-            employee.title_name = form.cleaned_data['title_name'] #pyright: ignore                                                                                                                         
-            updated_data.append(employee)     
+            if form.is_valid():  # pyright:ignore
+                print(form.is_valid())  # pyright:ignore
+                print(form.instance)  # pyright:ignore
+                employee = form.instance  # pyright: ignore
+                employee.first_name = form.cleaned_data["first_name"]  # pyright: ignore
+                employee.last_name = form.cleaned_data["last_name"]  # pyright: ignore
+                employee.title_name = form.cleaned_data["title_name"]  # pyright: ignore
+                updated_data.append(employee)
         print(updated_data)
-        PartTimeEmployee.objects.bulk_update(updated_data,['first_name', 'last_name', 'title_name']) #pyright: ignore                        
+        PartTimeEmployee.objects.bulk_update(  # pyright: ignore
+            updated_data, ["first_name", "last_name", "title_name"]
+        )
+
+    return render(
+        request, "PayRollApp/BulkUpdate.html", {"forms": forms, "employees": employees}
+    )
 
 
-    return render(request, 'PayRollApp/BulkUpdate.html', {'forms': forms, 'employees': employees})
-
-
-
-
-
+def bulk_delete_demo(request: HttpRequest) -> HttpResponse:
+    employees = PartTimeEmployee.objects.all()  # pyright:ignore
+    if request.method == "POST":
+        selected_ids = request.POST.getlist("selected_ids")
+        print(selected_ids)
+        if selected_ids:
+            PartTimeEmployee.objects.filter(pk__in=selected_ids).delete()  # pyright:ignore
+            return redirect("BulkDeleteDemo")
+    return render(
+        request=request,
+        template_name="PayRollApp/BulkDelete.html",
+        context={"employees": employees},
+    )
