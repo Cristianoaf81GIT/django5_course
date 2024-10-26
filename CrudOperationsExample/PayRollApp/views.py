@@ -174,3 +174,19 @@ def bulk_delete_demo(request: HttpRequest) -> HttpResponse:
         template_name="PayRollApp/BulkDelete.html",
         context={"employees": employees},
     )
+
+def delete_using_radio(request: HttpRequest) -> HttpResponse:
+    employees = PartTimeEmployee.objects.all()
+
+    if request.method == 'POST':
+        selected_id = request.POST.get('selected_id')
+        if selected_id:
+            PartTimeEmployee.objects.filter(pk=selected_id).delete()
+            return redirect("DeleteUsingRadio")
+
+
+    return render(
+        request=request, 
+        template_name="PayRollApp/DeleteUsingRadio.html",
+        context={"employees": employees}
+    )
