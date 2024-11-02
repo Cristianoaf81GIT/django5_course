@@ -17,5 +17,10 @@ urlpatterns = [
     path("NewBulkInsert", views.new_bulk_insert_demo, name="NewBulkInsert"),
     path("BulkUpdate", views.bulk_update_demo, name="BulkUpdate"),
     path("BulkDeleteDemo", views.bulk_delete_demo, name="BulkDeleteDemo"),
-    path("DeleteUsingRadio", views.delete_using_radio, name="DeleteUsingRadio")
+    path("DeleteUsingRadio", views.delete_using_radio, name="DeleteUsingRadio"),
+    path(
+        "PageWiseEmployeesList",
+        views.page_wise_employees_list,
+        name="PageWiseEmployeesList",
+    ),
 ]

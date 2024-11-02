@@ -3,6 +3,8 @@ from django.shortcuts import HttpResponseRedirect, redirect, render
 from django.http import HttpRequest, HttpResponse
 from .models import Employee, PartTimeEmployee
 from .forms import EmployeeForms, PartTimeEmployeeForm, PartTimeEmployeeFormSet
+from django.core.paginator import Paginator, PageNotAnInteger
+from django.conf import settings
 
 # Create your views here.
 
@@ -175,18 +177,38 @@ def bulk_delete_demo(request: HttpRequest) -> HttpResponse:
         context={"employees": employees},
     )
 
-def delete_using_radio(request: HttpRequest) -> HttpResponse:
-    employees = PartTimeEmployee.objects.all()
 
-    if request.method == 'POST':
-        selected_id = request.POST.get('selected_id')
+def delete_using_radio(request: HttpRequest) -> HttpResponse:
+    employees = PartTimeEmployee.objects.all()  # pyright: ignore  [reportAttributeAccessIssue]
+
+    if request.method == "POST":
+        selected_id = request.POST.get("selected_id")
         if selected_id:
-            PartTimeEmployee.objects.filter(pk=selected_id).delete()
+            PartTimeEmployee.objects.filter(pk=selected_id).delete()  # pyright: ignore  [reportAttributeAccessIssue]
             return redirect("DeleteUsingRadio")
 
+    return render(
+        request=request,
+        template_name="PayRollApp/DeleteUsingRadio.html",
+        context={"employees": employees},
+    )
+
+
+def page_wise_employees_list(request: HttpRequest) -> HttpResponse:
+    page_size = int(request.GET.get("page_size", getattr(settings, "PAGE_SIZE", 5)))  # pyright: ignore
+    page = request.GET.get("page", 1)
+
+    employees = PartTimeEmployee.objects.all()  # pyright: ignore
+    paginator = Paginator(employees, page_size)
+
+    try:
+        employees_page = paginator.page(page)
+    except PageNotAnInteger:
+        employees_page = paginator.page(1)
 
     return render(
-        request=request, 
-        template_name="PayRollApp/DeleteUsingRadio.html",
-        context={"employees": employees}
+        request,
+        "PayRollApp/PageWiseEmployees.html",
+        {"employees_page": employees_page, "page_size": page_size},
     )
+
