@@ -1,10 +1,11 @@
 from typing import Dict
-from django.shortcuts import HttpResponseRedirect, redirect, render
-from django.http import HttpRequest, HttpResponse
+from django.shortcuts import redirect, render
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from .models import Employee, PartTimeEmployee
 from .forms import EmployeeForms, PartTimeEmployeeForm, PartTimeEmployeeFormSet
 from django.core.paginator import Paginator, PageNotAnInteger
 from django.conf import settings
+from django.db.models import Q
 
 # Create your views here.
 
@@ -14,7 +15,7 @@ def employee_list(request: HttpRequest) -> HttpResponse:
     employees = Employee.objects.select_related("emp_department", "emp_country").all()  # pyright: ignore
     print(employees.query)
     template_file = "PayRollApp/EmployeesList.html"
-    context: Dict[str, list[Employee]] = dict({"Employees": employees})
+    context: Dict[str, list[Employee]] = dict({"Employees": employees})  # pyright: ignore
     return render(request=request, template_name=template_file, context=context)  # noqa
 
 
@@ -136,7 +137,7 @@ def bulk_update_demo(request: HttpRequest) -> HttpResponse:
         PartTimeEmployeeForm(
             request.POST or None,  # pyright: ignore
             instance=employee,
-            prefix=f"employee-{employee.id}",
+            prefix=f"employee-{employee.id}",  # pyright: ignore
         )
         for employee in employees
     ]
@@ -197,8 +198,17 @@ def delete_using_radio(request: HttpRequest) -> HttpResponse:
 def page_wise_employees_list(request: HttpRequest) -> HttpResponse:
     page_size = int(request.GET.get("page_size", getattr(settings, "PAGE_SIZE", 5)))  # pyright: ignore
     page = request.GET.get("page", 1)
+    search_query = request.GET.get("search", "")
 
-    employees = PartTimeEmployee.objects.all()  # pyright: ignore
+    # employees = PartTimeEmployee.objects.all()  # pyright: ignore
+
+    employees = PartTimeEmployee.objects.filter( # pyright: ignore 
+        Q(id__icontains=search_query) |
+        Q(first_name__icontains=search_query) |
+        Q(last_name__icontains=search_query) |
+        Q(title_name__icontains=search_query)
+    )
+
     paginator = Paginator(employees, page_size)
 
     try:
@@ -209,6 +219,9 @@ def page_wise_employees_list(request: HttpRequest) -> HttpResponse:
     return render(
         request,
         "PayRollApp/PageWiseEmployees.html",
-        {"employees_page": employees_page, "page_size": page_size},
+        {
+            "employees_page": employees_page, 
+            "page_size": page_size,
+            "search_query": search_query
+        },
     )
-
