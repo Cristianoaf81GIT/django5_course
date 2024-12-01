@@ -201,6 +201,12 @@ def page_wise_employees_list(request: HttpRequest) -> HttpResponse:
     search_query = request.GET.get("search", "")
 
     # employees = PartTimeEmployee.objects.all()  # pyright: ignore
+    sort_by = request.GET.get('sort_by', 'id')
+    sort_order = request.GET.get('sort_order', 'asc')
+
+    valid_sort_field = ['id', 'first_name', 'last_name', 'title_name']
+    if sort_by not in valid_sort_field:
+        sort_by = 'id'
 
     employees = PartTimeEmployee.objects.filter( # pyright: ignore 
         Q(id__icontains=search_query) |
@@ -208,6 +214,11 @@ def page_wise_employees_list(request: HttpRequest) -> HttpResponse:
         Q(last_name__icontains=search_query) |
         Q(title_name__icontains=search_query)
     )
+        
+    if sort_order == 'desc':
+        employees = employees.order_by(f'-{sort_by}')
+    else:
+        employees = employees.order_by(sort_by)
 
     paginator = Paginator(employees, page_size)
 
@@ -222,6 +233,8 @@ def page_wise_employees_list(request: HttpRequest) -> HttpResponse:
         {
             "employees_page": employees_page, 
             "page_size": page_size,
-            "search_query": search_query
+            "search_query": search_query,
+            "sort_by": sort_by,
+            "sort_order": sort_order
         },
     )
