@@ -1,8 +1,8 @@
 from typing import Dict
 from django.shortcuts import redirect, render
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-from .models import Employee, PartTimeEmployee
-from .forms import EmployeeForms, PartTimeEmployeeForm, PartTimeEmployeeFormSet
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
+from .models import City, Employee, PartTimeEmployee, State
+from .forms import EmployeeForms, OnSiteEmployeesForm, PartTimeEmployeeForm, PartTimeEmployeeFormSet
 from django.core.paginator import Paginator, PageNotAnInteger
 from django.conf import settings
 from django.db.models import Q
@@ -238,3 +238,28 @@ def page_wise_employees_list(request: HttpRequest) -> HttpResponse:
             "sort_order": sort_order
         },
     )
+
+def cascading_select(request: HttpRequest) -> HttpResponse:
+    employee_form = OnSiteEmployeesForm()
+    if request.method == 'POST':
+        employee_form = OnSiteEmployeesForm(request.POST)
+        if employee_form.is_valid():
+            employee_form.save()
+            return JsonResponse({'Success': True})
+
+    return render(
+        request=request,
+        template_name='PayRollApp/CascadingDemo.html',
+        context={'employee_form': employee_form}
+    )
+    
+def load_states(request: HttpRequest) -> HttpResponse:
+    country_id = request.GET.get('country_id')
+    print(country_id)
+    states = State.objects.filter(country_id=country_id).values('id', 'name')
+    return JsonResponse(list(states),safe=False)
+
+def load_cities(request: HttpRequest) -> HttpResponse:
+    state_id = request.GET.get('state_id')
+    cities = City.objects.filter(state_id=state_id).values('id', 'name')
+    return JsonResponse(list(cities), safe=False)

@@ -1,6 +1,6 @@
 from django import forms
-from django.forms import modelform_factory
-from .models import Employee, PartTimeEmployee
+from django.forms import Select, TextInput, modelform_factory
+from .models import Employee, OnSiteEmployees, PartTimeEmployee
 
 
 
@@ -9,7 +9,7 @@ class EmployeeForms(forms.ModelForm):
     class Meta:
         model = Employee
         fields = "__all__"
-        widgets = {
+        widgets = { #noqa
             "birth_date": forms.DateInput(
                 attrs={
                     "type": "date",
@@ -46,4 +46,41 @@ class NewPartTimeEmployeeForm(forms.ModelForm):
         fields="__all__" 
 
 
-PartTimeEmployeeFormSet = forms.modelformset_factory(PartTimeEmployee, form=NewPartTimeEmployeeForm, extra=10) 
+PartTimeEmployeeFormSet = forms.modelformset_factory(PartTimeEmployee, form=NewPartTimeEmployeeForm, extra=10)
+
+
+class OnSiteEmployeesForm(forms.ModelForm):
+    class Meta:
+        model = OnSiteEmployees
+        fields = ['first_name', 'last_name', 'country', 'state', 'city']
+
+        widgets = { # noqa
+            'first_name': TextInput(attrs={
+                'class': 'form-control',
+                'style': 'max-width: 300px;',
+                'placeholder': 'First Name'
+            }),
+            'last_name': TextInput(attrs={
+                'class': 'form-control',
+                'style': 'max-width: 300px;',
+                'placeholder': 'Last Name'
+            }),
+            'county': Select(attrs={
+                'class': 'form-control',
+                'style': 'max-width: 300px;',
+                'placeholder': 'Country',
+            }),
+            'state': Select({
+                'class': 'form-control',
+                'style': 'max-width: 300px;',
+                'placeholder': 'State',
+            }),
+            'city': Select(attrs={                
+                'class': 'form-control',
+                'style': 'max-width: 300px;',
+                'placeholder': 'State',
+            })
+        }
+
+
+
