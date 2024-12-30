@@ -65,7 +65,7 @@ class OnSiteEmployeesForm(forms.ModelForm):
                 'style': 'max-width: 300px;',
                 'placeholder': 'Last Name'
             }),
-            'county': Select(attrs={
+            'country': Select(attrs={
                 'class': 'form-control',
                 'style': 'max-width: 300px;',
                 'placeholder': 'Country',
